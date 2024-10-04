@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyCategories from "@/components/Category";
 import PlusSign from "../../public/icons/PlusSign";
 import OneRecord from "../components/OneRecord";
@@ -8,6 +8,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import AddRecord from "@/components/AddRecord";
+import axios from "axios";
 
 const categories = [
   "Food & Drinks",
@@ -132,6 +133,7 @@ let checked = [
   "true",
 ];
 const Home = () => {
+  const [amount, setAmount] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
 
   const [selected, setSelected] = useState("All");
@@ -180,9 +182,22 @@ const Home = () => {
   const handleAdd = () => {
     setShowAdd(!showAdd);
   };
-  // const opacity = showAdd === false ? "opacity-100" : "opacity-100";
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/record")
+      .then(function (response) {
+        console.log(response);
+        setAmount(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {});
+  }, []);
+
   return (
     // <div className="flex justify-center items-center flex-col">
+
     <div>
       {showAdd && (
         <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-gray-400 flex justify-center items-center">
@@ -284,7 +299,7 @@ const Home = () => {
             <div className="flex flex-col gap-3">
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
-                {myRecords[0].map((recordToday, index) => {
+                {amount.data?.record.map((recordToday, index) => {
                   return (
                     <OneRecord
                       key={index}
@@ -300,7 +315,7 @@ const Home = () => {
               </div>
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">
-                {myRecords[1].map((recordToday, index) => {
+                {amount.data?.record.map((recordToday, index) => {
                   return (
                     <OneRecord
                       key={index}

@@ -6,10 +6,13 @@ import Shopping from "../../public/icons/Shopping";
 import Taxi from "../../public/icons/Taxi";
 import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
+import axios from "axios";
 
 const AddRecord = (props) => {
   const { onCloseModal } = props;
   const [incomeExpense, setIncomeExpense] = useState("Expense");
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState("");
 
   const handleIncomeOrExpense = (props) => {
     const { name } = props;
@@ -38,6 +41,23 @@ const AddRecord = (props) => {
   const month = "0" + String(today.getMonth());
   const hour = String(today.getHours());
   const minutes = String(today.getMinutes());
+  const createRecord = async () => {
+    await axios
+      .post("http://localhost:8080/record", {
+        userid: "87",
+        name: "testing",
+        amount: amount,
+        transactiontype: "INC",
+        description: "guilgee",
+        categoryid: "8",
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   return (
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">
       <div className="py-5 px-6 flex justify-between">
@@ -66,6 +86,7 @@ const AddRecord = (props) => {
             <div className="flex flex-col py-3 px-4 bg-[#F3F4F6] border border-[#D1D5DB] rounded-xl">
               <p className="font-normal text-base"> Amount </p>
               <input
+                onChange={(e) => setAmount(e.target.value)}
                 type="number"
                 placeholder="₮ 000.00"
                 className="font-normal text-xl bg-[#F3F4F6]"
@@ -99,7 +120,7 @@ const AddRecord = (props) => {
             </div>
           </div>
           <button
-            onClick={() => handleAdd()}
+            onClick={createRecord}
             className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
             style={{ backgroundColor: buttonColor }}
           >
