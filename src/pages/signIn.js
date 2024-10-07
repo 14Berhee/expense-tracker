@@ -2,10 +2,13 @@ import Logo from "../../public/icons/Logo";
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -14,17 +17,28 @@ const SignIn = () => {
     setPassword(e.target.value);
   };
 
-  const Login = async () => {
+  const Login = () => {
     axios
-      .get("http://localhost:8000/user/signin")
+      .post("http://localhost:8090/users/signIn", {
+        email: email,
+        password: password,
+      })
       .then(function (response) {
-        console.log(response);
+        if (response.data.users.length === 1) {
+          console.log(response.data.users[0].id);
+          localStorage.setItem("userid", response.data.users[0].id);
+          router.push("/");
+        } else {
+          toast.error("unsuccessful");
+        }
       })
       .catch(function (error) {
         console.log(error);
+        toast.error("unsuccessful");
       })
       .finally(function () {});
   };
+
   return (
     <div className="flex w-screen h-screen">
       <div className="w-3/5 bg-[#FFFFFF] flex  justify-center items-center">

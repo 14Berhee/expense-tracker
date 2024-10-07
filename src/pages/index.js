@@ -132,7 +132,9 @@ let checked = [
   "true",
   "true",
 ];
-const Home = () => {
+const Home = (props) => {
+  const {} = props;
+
   const [amount, setAmount] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
 
@@ -184,7 +186,7 @@ const Home = () => {
   };
   useEffect(() => {
     axios
-      .get("http://localhost:8080/record")
+      .get("http://localhost:8090/record")
       .then(function (response) {
         console.log(response);
         setAmount(response);
@@ -303,11 +305,10 @@ const Home = () => {
                   return (
                     <OneRecord
                       key={index}
-                      text={recordToday.text}
-                      image={recordToday.image}
-                      time={recordToday.time}
+                      name={recordToday.name}
+                      amount={recordToday.amount}
+                      time={recordToday.createdat}
                       color={recordToday.color}
-                      money={recordToday.money}
                       iconColor={recordToday.iconColor}
                     />
                   );
@@ -316,14 +317,14 @@ const Home = () => {
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">
                 {amount.data?.record.map((recordToday, index) => {
+                  console.log(recordToday);
                   return (
                     <OneRecord
                       key={index}
-                      text={recordToday.text}
-                      image={recordToday.image}
-                      time={recordToday.time}
+                      name={recordToday.name}
+                      amount={recordToday.amount}
+                      time={recordToday.createdat}
                       color={recordToday.color}
-                      money={recordToday.money}
                       iconColor={recordToday.iconColor}
                     />
                   );

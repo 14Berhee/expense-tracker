@@ -43,7 +43,7 @@ const AddRecord = (props) => {
   const minutes = String(today.getMinutes());
   const createRecord = async () => {
     await axios
-      .post("http://localhost:8080/record", {
+      .post("http://localhost:8090/record", {
         userid: "87",
         name: "testing",
         amount: amount,

@@ -1,8 +1,10 @@
 import EyeIcon from "../../public/icons/EyeIcon";
 import ClosedEyeIcon from "../../public/icons/ClosedEyeIcon";
 import { useState } from "react";
+import axios from "axios";
 
 const MyCategories = (props) => {
+  const [category, setCategory] = useState("");
   const { categoryName, ischecked } = props;
   const [checked, setChecked] = useState("true");
   const handleClick = () => {

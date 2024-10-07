@@ -1,5 +1,5 @@
 const OneRecord = (props) => {
-  const { text, image, time, color, money, iconColor } = props;
+  const { name, image, time, color, amount, iconColor } = props;
 
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
@@ -14,7 +14,7 @@ const OneRecord = (props) => {
         </div>
 
         <div className="flex flex-col">
-          <p className="font-normal text-base">{text}</p>
+          <p className="font-normal text-base">{name}</p>
           <p className="font-normal text-xs text-[#6B7280]"> {time} </p>
         </div>
       </div>
@@ -22,7 +22,7 @@ const OneRecord = (props) => {
         className={`font-semibold text-base text-[${color}]`}
         style={{ text: color }}
       >
-        {money}
+        {amount}
       </p>
     </div>
   );
