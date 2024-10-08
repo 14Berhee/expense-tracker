@@ -17,7 +17,7 @@ const SignIn = () => {
     setPassword(e.target.value);
   };
 
-  const Login = () => {
+  const Login = async () => {
     axios
       .post("http://localhost:8090/users/signIn", {
         email: email,
@@ -26,7 +26,7 @@ const SignIn = () => {
       .then(function (response) {
         if (response.data.users.length === 1) {
           console.log(response.data.users[0].id);
-          localStorage.setItem("userid", response.data.users[0].id);
+          localStorage.setItem("userid", response.data.users[0].userid);
           router.push("/");
         } else {
           toast.error("unsuccessful");

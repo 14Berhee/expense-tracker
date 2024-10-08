@@ -17,13 +17,13 @@ const SignUp = () => {
       setMessageColor("#F54949");
       setRePassword("");
     } else if (password.length < 8) {
-      setMessage("Password must at least have 8 characters");
+      setMessage("Password must have at least 8 characters");
       setMessageColor("#F54949");
       setRePassword("");
       setPassword("");
     } else {
       axios
-        .post("http://localhost:8000/user", {
+        .post("http://localhost:8090/users/signUp", {
           email: email,
           name: name,
           password: password,
