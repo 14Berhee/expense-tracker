@@ -1,5 +1,8 @@
+import { categoryIconByCategoryName } from "../util/findCategoryIcon";
+
 const OneRecord = (props) => {
   const { name, image, time, color, amount, iconColor } = props;
+  const icon = categoryIconByCategoryName(props);
 
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
@@ -10,7 +13,7 @@ const OneRecord = (props) => {
             backgroundColor: iconColor,
           }}
         >
-          {image}
+          {icon?.image}
         </div>
 
         <div className="flex flex-col">

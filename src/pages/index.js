@@ -9,6 +9,7 @@ import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import AddRecord from "@/components/AddRecord";
 import axios from "axios";
+import { SideBar } from "@/components/Sidebar";
 
 const categories = [
   "Food & Drinks",
@@ -24,100 +25,7 @@ const categories = [
   "Income",
   "Others",
 ];
-const records = [
-  [
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-  ],
-  [
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-  ],
-];
+
 let checked = [
   "true",
   "true",
@@ -139,12 +47,28 @@ const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
 
   const [selected, setSelected] = useState("All");
-  const [myRecords, setRecords] = useState(records);
+  const [myRecords, setRecords] = useState([]);
 
   const [selectedCategories, setSelectedCategories] = useState(categories);
   const [selectedEyes, setSelectedEyes] = useState(checked);
 
+  const [filter, setFilter] = useState("All");
+  const [allRecords, setAllRecords] = useState([]);
+
   const [checkedCategories, setCheckedCategories] = useState(categories);
+
+  const handleFilterChange = (selectFilter) => {
+    setFilter(selectFilter);
+
+    if (selectFilter === "All") {
+      setRecords(allRecords);
+    } else if (selectFilter === "Income") {
+      const incomeRecords = allRecords.filter(
+        (record) => record.transactiontype === "INC"
+      );
+    }
+  };
+
   const handleCategory = (input, index) => {
     let myCategories = [...selectedEyes];
     if (input == "true") {
@@ -152,6 +76,7 @@ const Home = (props) => {
     } else {
       myCategories[index] = "true";
     }
+
     setSelectedEyes(myCategories);
     let filteredCategories = [];
     for (let i = 0; i < categories.length; i++) {
@@ -161,22 +86,7 @@ const Home = (props) => {
     }
     setCheckedCategories();
   };
-  const handleExpense = () => {
-    const filtered = records.map((day) =>
-      day.filter((oneRecord) => oneRecord.money.includes("-"))
-    );
-    setRecords(filtered);
-  };
-  const handleIncome = () => {
-    const filtered = records.map((day) =>
-      day.filter((oneRecord) => oneRecord.money.includes("+"))
-    );
-    console.log(filtered);
-    setRecords(filtered);
-  };
-  const handleAll = () => {
-    setRecords(records);
-  };
+
   const handleChange = (option) => {
     setSelected(option);
   };
@@ -306,6 +216,7 @@ const Home = (props) => {
                     <OneRecord
                       key={index}
                       name={recordToday.name}
+                      image={recordToday.image}
                       amount={recordToday.amount}
                       time={recordToday.createdat}
                       color={recordToday.color}
@@ -322,6 +233,7 @@ const Home = (props) => {
                     <OneRecord
                       key={index}
                       name={recordToday.name}
+                      image={recordToday.image}
                       amount={recordToday.amount}
                       time={recordToday.createdat}
                       color={recordToday.color}
