@@ -8,23 +8,26 @@ import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import axios from "axios";
 
+// const {name}
+
 const AddRecord = (props) => {
   const { onCloseModal } = props;
   const [incomeExpense, setIncomeExpense] = useState("Expense");
-  const [name, setName] = useState("");
+  const [mane, setMane] = useState("");
   const [amount, setAmount] = useState("");
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const handleIncomeOrExpense = (props) => {
-    const { name } = props;
-    setIncomeExpense(name);
+    const { mane } = props;
+    setIncomeExpense(mane);
     if (incomeExpense === "Expense") {
       setIncomeExpense("Income");
     } else {
       setIncomeExpense("Expense");
     }
   };
-
-  const handleAdd = () => {};
 
   const Expensebackground = incomeExpense === "Expense" ? "#0166FF" : "#F3F4F6";
   const Incomebackground = incomeExpense === "Income" ? "#16A34A" : "#F3F4F6";
@@ -44,15 +47,16 @@ const AddRecord = (props) => {
   const createRecord = async () => {
     await axios
       .post("http://localhost:8090/record", {
-        userid: "87",
-        name: "testing",
-        amount: amount,
+        userid: "6",
+        name: name,
+        amount: Number(amount),
         transactiontype: "INC",
         description: "guilgee",
         categoryid: "8",
       })
       .then(function (response) {
         console.log(response);
+        onCloseModal();
       })
       .catch(function (error) {
         console.log(error);
@@ -94,10 +98,20 @@ const AddRecord = (props) => {
             </div>
             <div className="flex flex-col gap-2">
               <p> Category </p>
-              <select className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg">
+              <select
+                className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg"
+                onChange={(event) => setCategory(event.target.value)}
+              >
                 <option defaultChecked> Find or choose category</option>
-                <option className="px-[18px] py-2 flex gap-3">Food</option>
-                <option> Home </option>
+                <option value="Food" className="px-[18px] py-2 flex gap-3">
+                  Food
+                </option>
+                <option value="Home"> Home </option>
+                {categories?.categories?.map((category) => {
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>;
+                })}
               </select>
             </div>
             <div className="flex gap-2">
@@ -140,3 +154,26 @@ const AddRecord = (props) => {
 };
 
 export default AddRecord;
+
+const MyCompont = () => {
+  const [value, setValue] = useState("");
+
+  const addRecord = async () => {
+    if (value === "") {
+      alert("hooson bj bolohgui");
+      return;
+    }
+    console.log(value);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
+      <button onClick={addRecord}>add record</button>
+    </div>
+  );
+};

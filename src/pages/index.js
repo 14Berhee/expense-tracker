@@ -9,7 +9,6 @@ import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import AddRecord from "@/components/AddRecord";
 import axios from "axios";
-import { SideBar } from "@/components/Sidebar";
 
 const categories = [
   "Food & Drinks",
@@ -43,73 +42,36 @@ let checked = [
 const Home = (props) => {
   const {} = props;
 
-  const [amount, setAmount] = useState([]);
+  const [records, setRecords] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
-
-  const [selected, setSelected] = useState("All");
-  const [myRecords, setRecords] = useState([]);
-
-  const [selectedCategories, setSelectedCategories] = useState(categories);
-  const [selectedEyes, setSelectedEyes] = useState(checked);
-
-  const [filter, setFilter] = useState("All");
-  const [allRecords, setAllRecords] = useState([]);
-
-  const [checkedCategories, setCheckedCategories] = useState(categories);
-
-  const handleFilterChange = (selectFilter) => {
-    setFilter(selectFilter);
-
-    if (selectFilter === "All") {
-      setRecords(allRecords);
-    } else if (selectFilter === "Income") {
-      const incomeRecords = allRecords.filter(
-        (record) => record.transactiontype === "INC"
-      );
-    }
-  };
-
-  const handleCategory = (input, index) => {
-    let myCategories = [...selectedEyes];
-    if (input == "true") {
-      myCategories[index] = "false";
-    } else {
-      myCategories[index] = "true";
-    }
-
-    setSelectedEyes(myCategories);
-    let filteredCategories = [];
-    for (let i = 0; i < categories.length; i++) {
-      if (selectedEyes[i] == "true") {
-        filteredCategories.push(selectedCategories[i]);
-      }
-    }
-    setCheckedCategories();
-  };
-
-  const handleChange = (option) => {
-    setSelected(option);
-  };
+  const [recordsTypeFilter, setRecordsTypeFilter] = useState("");
 
   const handleAdd = () => {
     setShowAdd(!showAdd);
   };
+
   useEffect(() => {
     axios
       .get("http://localhost:8090/record")
-      .then(function (response) {
-        console.log(response);
-        setAmount(response);
+      .then((response) => {
+        setRecords(response.data.record);
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .finally(function () {});
+      });
   }, []);
 
-  return (
-    // <div className="flex justify-center items-center flex-col">
+  const filteredRecords = records.filter((record) => {
+    if (!recordsTypeFilter) return true;
 
+    return record.transactiontype === recordsTypeFilter;
+  });
+
+  const handleRecordFilterType = (type) => {
+    setRecordsTypeFilter(type);
+  };
+
+  return (
     <div>
       {showAdd && (
         <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-gray-400 flex justify-center items-center">
@@ -141,30 +103,27 @@ const Home = (props) => {
               <div className="flex items-center gap-2 px-3 py-1.5">
                 <input
                   type="checkbox"
-                  checked={"All" === selected}
+                  checked={recordsTypeFilter === ""}
                   className="checkbox"
-                  onChange={() => handleChange("All")}
-                  onClick={() => handleAll()}
+                  onClick={() => handleRecordFilterType("")}
                 />
                 All
               </div>
               <div className="flex items-center gap-2 px-3 py-1.5">
                 <input
                   type="checkbox"
-                  checked={"Income" === selected}
+                  checked={recordsTypeFilter === "INC"}
                   className="checkbox"
-                  onChange={() => handleChange("Income")}
-                  onClick={() => handleIncome()}
+                  onClick={() => handleRecordFilterType("INC")}
                 />
                 Income
               </div>
               <div className="flex items-center gap-2 px-3 py-1.5">
                 <input
+                  checked={recordsTypeFilter === "EXP"}
                   type="checkbox"
-                  checked={"Expense" === selected}
                   className="checkbox"
-                  onChange={() => handleChange("Expense")}
-                  onClick={() => handleExpense()}
+                  onClick={() => handleRecordFilterType("EXP")}
                 />
                 Expense
               </div>
@@ -209,26 +168,8 @@ const Home = (props) => {
               </select>
             </div>
             <div className="flex flex-col gap-3">
-              <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
-                {amount.data?.record.map((recordToday, index) => {
-                  return (
-                    <OneRecord
-                      key={index}
-                      name={recordToday.name}
-                      image={recordToday.image}
-                      amount={recordToday.amount}
-                      time={recordToday.createdat}
-                      color={recordToday.color}
-                      iconColor={recordToday.iconColor}
-                    />
-                  );
-                })}
-              </div>
-              <p className="font-semibold text-base"> Yesterday </p>
-              <div className="flex flex-col gap-3">
-                {amount.data?.record.map((recordToday, index) => {
-                  console.log(recordToday);
+                {filteredRecords?.map((recordToday, index) => {
                   return (
                     <OneRecord
                       key={index}

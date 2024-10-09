@@ -1,8 +1,11 @@
 import { categoryIconByCategoryName } from "../util/findCategoryIcon";
+import moment from "moment";
 
-const OneRecord = (props) => {
+const Record = (props) => {
   const { name, image, time, color, amount, iconColor } = props;
   const icon = categoryIconByCategoryName(props);
+
+  const formattedDate = moment(time).format("lll");
 
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
@@ -18,7 +21,7 @@ const OneRecord = (props) => {
 
         <div className="flex flex-col">
           <p className="font-normal text-base">{name}</p>
-          <p className="font-normal text-xs text-[#6B7280]"> {time} </p>
+          <p className="font-normal text-xs text-[#6B7280]">{formattedDate}</p>
         </div>
       </div>
       <p
@@ -31,4 +34,4 @@ const OneRecord = (props) => {
   );
 };
 
-export default OneRecord;
+export default Record;
