@@ -7,6 +7,7 @@ import Taxi from "../../public/icons/Taxi";
 import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import axios from "axios";
+import { useEffect } from "react";
 
 // const {name}
 
@@ -28,6 +29,17 @@ const AddRecord = (props) => {
       setIncomeExpense("Expense");
     }
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8090/category")
+      .then((response) => {
+        setCategories(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
   const Expensebackground = incomeExpense === "Expense" ? "#0166FF" : "#F3F4F6";
   const Incomebackground = incomeExpense === "Income" ? "#16A34A" : "#F3F4F6";
@@ -61,6 +73,17 @@ const AddRecord = (props) => {
       .catch(function (error) {
         console.log(error);
       });
+
+    useEffect(() => {
+      axios
+        .get("http://localhost:8090/category")
+        .then((response) => {
+          setCategory(response.data.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }, []);
   };
   return (
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">

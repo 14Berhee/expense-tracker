@@ -45,6 +45,10 @@ const Home = (props) => {
   const [records, setRecords] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
   const [recordsTypeFilter, setRecordsTypeFilter] = useState("");
+  const [selectedEyes, setSelectedEyes] = useState(checked);
+  const [selectedCategories, setSelectedCategories] = useState(categories);
+  const [checkedCategories, setCheckedCategories] = useState(categories);
+  const [category, setCategory] = useState([]);
 
   const handleAdd = () => {
     setShowAdd(!showAdd);
@@ -61,6 +65,17 @@ const Home = (props) => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:8090/category")
+      .then((response) => {
+        setCategory(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
   const filteredRecords = records.filter((record) => {
     if (!recordsTypeFilter) return true;
 
@@ -69,6 +84,23 @@ const Home = (props) => {
 
   const handleRecordFilterType = (type) => {
     setRecordsTypeFilter(type);
+  };
+
+  const handleCategory = (input, index) => {
+    let MyCategories = [...selectedEyes];
+    if (input == "true") {
+      MyCategories[index] = "false";
+    } else {
+      MyCategories[index] = "true";
+    }
+    setSelectedEyes(MyCategories);
+    let filteredCategories = [];
+    for (let i = 0; i < categories.length; i++) {
+      if (selectedEyes[i] == "true") {
+        filteredCategories.push(selectedCategories[i]);
+      }
+    }
+    setCheckedCategories;
   };
 
   return (
@@ -134,17 +166,19 @@ const Home = (props) => {
                 <p className="font-normal text-base opacity-20"> Clear </p>
               </div>
               <div className="flex flex-col gap-2">
-                {categories.map((category1, index) => {
+                {category.map((category1) => {
+                  const index = category.indexOf(category1);
                   return (
                     <div
-                      key={index}
+                      key={category1.id || index}
                       onClick={() => handleCategory(selectedEyes[index], index)}
                     >
-                      <MyCategories categoryName={category1} />
+                      <MyCategories categoryName={category1.name} />
                     </div>
                   );
                 })}
               </div>
+
               <div className="flex gap-2 py-1.5 pl-3 items-center">
                 <PlusSign color={"#0166FF"} />
                 <p>Add category </p>
