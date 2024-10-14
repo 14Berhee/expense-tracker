@@ -17,8 +17,8 @@ const AddRecord = (props) => {
   const [mane, setMane] = useState("");
   const [amount, setAmount] = useState("");
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState([]);
+  console.log(category);
 
   const handleIncomeOrExpense = (props) => {
     const { mane } = props;
@@ -34,7 +34,7 @@ const AddRecord = (props) => {
     axios
       .get("http://localhost:8090/category")
       .then((response) => {
-        setCategories(response.data.data);
+        setCategory(response.data.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -73,17 +73,6 @@ const AddRecord = (props) => {
       .catch(function (error) {
         console.log(error);
       });
-
-    useEffect(() => {
-      axios
-        .get("http://localhost:8090/category")
-        .then((response) => {
-          setCategory(response.data.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }, []);
   };
   return (
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">
@@ -125,16 +114,15 @@ const AddRecord = (props) => {
                 className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg"
                 onChange={(event) => setCategory(event.target.value)}
               >
-                <option defaultChecked> Find or choose category</option>
-                <option value="Food" className="px-[18px] py-2 flex gap-3">
-                  Food
-                </option>
-                <option value="Home"> Home </option>
-                {categories?.categories?.map((category) => {
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>;
-                })}
+                {category?.map((category2, index) => (
+                  <option
+                    key={index}
+                    value={category2.categoryid || category2}
+                    className="px-[18px] py-2 flex gap-3"
+                  >
+                    {category2.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="flex gap-2">
