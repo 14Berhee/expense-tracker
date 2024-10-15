@@ -17,8 +17,10 @@ const AddRecord = (props) => {
   const [mane, setMane] = useState("");
   const [amount, setAmount] = useState("");
   const [name, setName] = useState("");
-  const [category, setCategory] = useState([]);
-  console.log(category);
+  const [category2, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  console.log(category2);
 
   const handleIncomeOrExpense = (props) => {
     const { mane } = props;
@@ -34,8 +36,9 @@ const AddRecord = (props) => {
     axios
       .get("http://localhost:8090/category")
       .then((response) => {
-        setCategory(response.data.data);
+        setCategories(response.data.data);
       })
+
       .catch(function (error) {
         console.log(error);
       });
@@ -63,10 +66,11 @@ const AddRecord = (props) => {
         name: name,
         amount: Number(amount),
         transactiontype: "INC",
-        description: "guilgee",
-        categoryid: "8",
+        description: Text(description),
+        categoryid: category,
       })
       .then(function (response) {
+        setName(response.data.name);
         console.log(response);
         onCloseModal();
       })
@@ -114,13 +118,13 @@ const AddRecord = (props) => {
                 className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg"
                 onChange={(event) => setCategory(event.target.value)}
               >
-                {category?.map((category2, index) => (
+                {category2.map((categoryItem, index) => (
                   <option
                     key={index}
-                    value={category2.categoryid || category2}
+                    value={categoryItem.categoryid}
                     className="px-[18px] py-2 flex gap-3"
                   >
-                    {category2.name}
+                    {categoryItem.name}
                   </option>
                 ))}
               </select>
@@ -145,7 +149,7 @@ const AddRecord = (props) => {
             </div>
           </div>
           <button
-            onClick={createRecord}
+            onClick={(event) => createRecord(event.target.value)}
             className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
             style={{ backgroundColor: buttonColor }}
           >
@@ -153,7 +157,9 @@ const AddRecord = (props) => {
           </button>
         </div>
         <div className="flex flex-col gap-2 px-6 pb-6 pt-[18px] w-full ">
-          <p className="text-[#1F2937]">Description</p>
+          <p onChange={setDescription} className="text-[#1F2937]">
+            Description
+          </p>
           <textarea
             placeholder="Write here"
             className="bg-[#F3F4F6] pt-4 pl-4 border border-[#D1D5DB] w-full h-full rounded-lg"
