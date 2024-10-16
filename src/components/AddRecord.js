@@ -34,7 +34,7 @@ const AddRecord = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8090/category")
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/category`)
       .then((response) => {
         setCategories(response.data.data);
       })
@@ -61,7 +61,7 @@ const AddRecord = (props) => {
   const minutes = String(today.getMinutes());
   const createRecord = async () => {
     await axios
-      .post("http://localhost:8090/record", {
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/record`, {
         userid: "6",
         name: name,
         amount: Number(amount),

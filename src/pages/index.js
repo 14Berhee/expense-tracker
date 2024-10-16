@@ -67,7 +67,7 @@ const Home = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8090/category")
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/category`)
       .then((response) => {
         setCategory(response.data.data);
       })

@@ -23,7 +23,7 @@ const SignUp = () => {
       setPassword("");
     } else {
       axios
-        .post("http://localhost:8090/users/signUp", {
+        .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signUp`, {
           email: email,
           name: name,
           password: password,
