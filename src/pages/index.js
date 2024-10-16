@@ -56,7 +56,7 @@ const Home = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8090/record")
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/record`)
       .then((response) => {
         setRecords(response.data.record);
       })
