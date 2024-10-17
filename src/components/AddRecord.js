@@ -1,20 +1,11 @@
 import { IoClose } from "react-icons/io5";
 import { useState } from "react";
-import Drink from "../../public/icons/Drink";
-import Gift from "../../public/icons/Gift";
-import Shopping from "../../public/icons/Shopping";
-import Taxi from "../../public/icons/Taxi";
-import RentIcon from "../../public/icons/RentIcon";
-import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import axios from "axios";
 import { useEffect } from "react";
-
-// const {name}
 
 const AddRecord = (props) => {
   const { onCloseModal } = props;
   const [incomeExpense, setIncomeExpense] = useState("Expense");
-  const [mane, setMane] = useState("");
   const [amount, setAmount] = useState("");
   const [name, setName] = useState("");
   const [category2, setCategories] = useState([]);
@@ -23,8 +14,8 @@ const AddRecord = (props) => {
   console.log(category2);
 
   const handleIncomeOrExpense = (props) => {
-    const { mane } = props;
-    setIncomeExpense(mane);
+    const { name } = props;
+    setIncomeExpense(name);
     if (incomeExpense === "Expense") {
       setIncomeExpense("Income");
     } else {
@@ -66,7 +57,7 @@ const AddRecord = (props) => {
         name: name,
         amount: Number(amount),
         transactiontype: "INC",
-        description: Text(description),
+        description: description,
         categoryid: category,
       })
       .then(function (response) {
@@ -171,26 +162,3 @@ const AddRecord = (props) => {
 };
 
 export default AddRecord;
-
-const MyCompont = () => {
-  const [value, setValue] = useState("");
-
-  const addRecord = async () => {
-    if (value === "") {
-      alert("hooson bj bolohgui");
-      return;
-    }
-    console.log(value);
-  };
-
-  return (
-    <div>
-      <input
-        type="text"
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-      />
-      <button onClick={addRecord}>add record</button>
-    </div>
-  );
-};

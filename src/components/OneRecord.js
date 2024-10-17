@@ -1,9 +1,9 @@
-import { categoryIconByCategoryName } from "../util/findCategoryIcon";
+import { categoryIconById } from "../util/findCategoryIcon";
 import moment from "moment";
 
 const Record = (props) => {
-  const { name, image, time, color, amount, iconColor } = props;
-  const icon = categoryIconByCategoryName(props);
+  const { id, name, time, color, amount } = props;
+  const icon = categoryIconById(id);
 
   const formattedDate = moment(time).format("lll");
 
@@ -11,9 +11,9 @@ const Record = (props) => {
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
       <div className="flex gap-4">
         <div
-          className={`flex justify-center items-center w-10 h-10 rounded-full bg-[${iconColor}]`}
+          className={`flex justify-center items-center w-10 h-10 rounded-full bg-[${icon?.color}]`}
           style={{
-            backgroundColor: iconColor,
+            backgroundColor: icon?.iconColor,
           }}
         >
           {icon?.image}

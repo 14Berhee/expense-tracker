@@ -9,6 +9,7 @@ import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import AddRecord from "@/components/AddRecord";
 import axios from "axios";
+import AddCategory from "../components/AddCategory";
 
 const categories = [
   "Food & Drinks",
@@ -206,17 +207,21 @@ const Home = (props) => {
                 {filteredRecords?.map((recordToday, index) => {
                   return (
                     <OneRecord
+                      id={recordToday?.categoryid}
                       key={index}
-                      name={recordToday.name}
-                      image={recordToday.image}
-                      amount={recordToday.amount}
-                      time={recordToday.createdat}
-                      color={recordToday.color}
-                      iconColor={recordToday.iconColor}
+                      name={recordToday?.name}
+                      image={recordToday?.image}
+                      amount={recordToday?.amount}
+                      time={recordToday?.createdat}
+                      color={recordToday?.color}
+                      iconColor={recordToday?.iconColor}
                     />
                   );
                 })}
               </div>
+            </div>
+            <div>
+              <AddCategory />
             </div>
           </div>
         </div>
