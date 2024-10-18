@@ -11,6 +11,7 @@ const AddRecord = (props) => {
   const [category2, setCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [userid, setUserid] = useState("");
   console.log(category2);
 
   const handleIncomeOrExpense = (props) => {
@@ -41,8 +42,10 @@ const AddRecord = (props) => {
   console.log(buttonColor);
   const textColorIncome =
     incomeExpense === "Income" ? "text-white" : "text-base";
+  amount === "Income" ? "text-green" : "text-base";
   const textColorExpense =
     incomeExpense === "Expense" ? "text-white" : "text-base";
+  amount === "Income" ? "text-red" : "text-base";
 
   const today = new Date();
   const day = String(today.getDate());
@@ -53,7 +56,7 @@ const AddRecord = (props) => {
   const createRecord = async () => {
     await axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/record/`, {
-        userid: "6",
+        userid: "8",
         name: name,
         amount: Number(amount),
         transactiontype: "INC",
@@ -143,6 +146,7 @@ const AddRecord = (props) => {
             onClick={(event) => createRecord(event.target.value)}
             className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
             style={{ backgroundColor: buttonColor }}
+            onSubmit={(event) => setUserid(event.target.value)}
           >
             Add Record
           </button>
