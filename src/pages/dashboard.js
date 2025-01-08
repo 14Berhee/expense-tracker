@@ -2,14 +2,27 @@ import Navbar from "../components/Navbar";
 import Income from "../components/Income";
 import ExpenseLogo from "../../public/icons/ExpenseLogo";
 import IncomeLogo from "../../public/icons/IncomeLogo";
+import {WhiteLogo} from "@/components/WhiteLogo"
+import { Chip } from "../../public/icons/Chip";
 
 const Dashboard = () => {
   return (
-    <div className="bg-[#F3F4F6] flex flex-col gap-8 items-center">
+    <div className="bg-[#F3F4F6] flex flex-col items-center">
       <Navbar />
       <div className="flex flex-col gap-6 w-full px-[120px]">
         <div className="flex gap-6">
-          <div className="w-full rounded-[18px] bg-[#0166FF]"></div>
+          <div className="w-full rounded-[18px] bg-[#0166FF] flex flex-col justify-between p-8">
+            <WhiteLogo/>
+            <div className="flex justify-between items-end">
+            <div className="w-[108px] h-[56px]">
+              <p className="text-[#FFFFFF] opacity-[0.3] font-normal text-[16px]">CASH</p>
+              <p className="text-white text-[24px] font-semibold">10.000</p>
+            </div>
+            <div>
+              <Chip/>
+            </div>
+            </div>
+          </div>
           <Income
             color={"#84CC16"}
             title={"Your Income"}
@@ -28,30 +41,6 @@ const Dashboard = () => {
           />
         </div>
       </div>
-      <div className="px-6">
-        <div className="w-full">
-          <p className="font-semibold text-base py-4"> last Records </p>
-        </div>
-      </div>
-      {/* <div className="flex gap-6 px-[120px]">
-        <div className="w-full bg-white">
-          <div className="py-4 pl-6">
-            <p className="font-semibold text-base"> Income - Expense</p>
-          </div>
-          <div className="pt-8 py-6">
-            <img src="/images/Income.png" />
-          </div>
-        </div>
-        <div className="w-full bg-white">
-          <div className="px-6 py-4 justify-between flex">
-            <p className="font-semibold text-base">Income - Expense</p>
-            <p className="font-normal text-base">Jun 1 - Nov 30</p>
-          </div>
-          <div className="pt-8 py-6">
-            <img src="/images/Expense.png" />
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

@@ -10,6 +10,8 @@ import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import AddRecord from "@/components/AddRecord";
 import axios from "axios";
 import AddCategory from "../components/AddCategory";
+import Dashboard from "./dashboard";
+
 
 const categories = [
   "Food & Drinks",
@@ -226,6 +228,7 @@ const Home = (props) => {
           </div>
         </div>
       </div>
+      <Dashboard/>
     </div>
   );
 };
