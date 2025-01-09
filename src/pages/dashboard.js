@@ -4,6 +4,7 @@ import ExpenseLogo from "../../public/icons/ExpenseLogo";
 import IncomeLogo from "../../public/icons/IncomeLogo";
 import {WhiteLogo} from "@/components/WhiteLogo"
 import { Chip } from "../../public/icons/Chip";
+import { Chart } from "@/components/BarChart";
 
 const Dashboard = () => {
   return (
@@ -41,6 +42,7 @@ const Dashboard = () => {
           />
         </div>
       </div>
+      <Chart/>
     </div>
   );
 };
